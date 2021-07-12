@@ -1,201 +1,26 @@
+import { Link, Route, Switch } from 'react-router-dom';
 import './App.css';
-
+import CartScreen from './screens/CartScreen';
+import ProductListScreen from './screens/ProductListScreen';
+import ProductScreen from './screens/ProductScreen';
 function App() {
   return (
     <div className="grid-container">
       <header className="row">
         <div>
-          <a className="brand" href="index.html">amazona</a>
+          <Link className="brand" to="/">amazona</Link>
         </div>
         <div>
-          <a href="cart.html">Cart</a>
-          <a href="signin.html">Sign In</a>
+          <Link to="/cart">Cart</Link>
+          <a href="/signin">Sign In</a>
         </div>
       </header>
       <main>
-        <div className="row center">
-          <div className="card">
-            <a href="product.html">
-              <img className="medium" src="./images/p1.jpg" alt="product" />
-            </a>
-            <div className="card-body">
-              <a href="product.html">
-                <h2>Nike Slim Shirts</h2>
-              </a>
-              <div className="rating">
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star-half-o"></i>
-                </span>
-              </div>
-              <div className="price">
-                120$
-              </div>
-            </div>
-          </div>
-          <div className="card">
-            <a href="product.html">
-              <img className="medium" src="./images/p1.jpg" alt="product" />
-            </a>
-            <div className="card-body">
-              <a href="product.html">
-                <h2>Nike Slim Shirts</h2>
-              </a>
-              <div className="rating">
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star-half-o"></i>
-                </span>
-              </div>
-              <div className="price">
-                120$
-              </div>
-            </div>
-          </div>
-          <div className="card">
-            <a href="product.html">
-              <img className="medium" src="./images/p1.jpg" alt="product" />
-            </a>
-            <div className="card-body">
-              <a href="product.html">
-                <h2>Nike Slim Shirts</h2>
-              </a>
-              <div className="rating">
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-              </div>
-              <div className="price">
-                120$
-              </div>
-            </div>
-          </div>
-          <div className="card">
-            <a href="product.html">
-              <img className="medium" src="./images/p1.jpg" alt="product" />
-            </a>
-            <div className="card-body">
-              <a href="product.html">
-                <h2>Nike Slim Shirts</h2>
-              </a>
-              <div className="rating">
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-              </div>
-              <div className="price">
-                120$
-              </div>
-            </div>
-          </div>
-          <div className="card">
-            <a href="product.html">
-              <img className="medium" src="./images/p1.jpg" alt="product" />
-            </a>
-            <div className="card-body">
-              <a href="product.html">
-                <h2>Nike Slim Shirts</h2>
-              </a>
-              <div className="rating">
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-              </div>
-              <div className="price">
-                120$
-              </div>
-            </div>
-          </div>
-          <div className="card">
-            <a href="product.html">
-              <img className="medium" src="./images/p1.jpg" alt="product" />
-            </a>
-            <div className="card-body">
-              <a href="product.html">
-                <h2>Nike Slim Shirts</h2>
-              </a>
-              <div className="rating">
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-                <span>
-                  <i className="fa fa-star"></i>
-                </span>
-              </div>
-              <div className="price">
-                120$
-              </div>
-            </div>
-          </div>
-
-        </div>
+        <Switch>
+          <Route exact path="/" component={ProductListScreen} />
+          <Route path="/product/:id" component={ProductScreen} />
+          <Route path="/cart" component={CartScreen} />
+        </Switch>
       </main>
       <footer className="row center">All right reserved</footer>
     </div>
