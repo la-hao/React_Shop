@@ -145,10 +145,19 @@ a.brand {
   flex: 2 1 50rem;
 }
 
+.min-30 {
+  min-width: 30rem;
+}
+
 /* Image */
 
 img {
   border-radius: 0.5rem;
+}
+
+img.small {
+  max-width: 5rem;
+  width: 100%
 }
 
 img.medium {
@@ -189,6 +198,12 @@ img.large {
 .rating span:last-child {
   color: #404040;
   margin-left: 0.5rem;
+}
+
+/* Cart */
+
+.cart-item {
+  border-bottom: solid 0.1rem #bbb;
 }
 
 /* Alert */
