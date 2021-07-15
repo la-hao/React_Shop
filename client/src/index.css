@@ -231,3 +231,30 @@ img.large {
   color: #a02020;
   background-color: #ffe0e0;
 }
+
+.alert-success {
+  color: #20a020;
+  background-color: #e0ffe0;
+}
+
+/* Form */
+
+.form {
+  max-width: 60rem;
+  margin: 0 auto;
+}
+
+.form>div {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+}
+
+.form label {
+  margin: 1rem 0;
+  display: block;
+}
+
+.form>.form-title {
+  align-items: center;
+}

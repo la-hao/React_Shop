@@ -3,6 +3,7 @@ import { Link, Route, Switch } from 'react-router-dom';
 import './App.css';
 import Error from './components/Error';
 import CartScreen from './screens/CartScreen';
+import LoginScreen from './screens/LoginScreen';
 import ProductListScreen from './screens/ProductListScreen';
 import ProductScreen from './screens/ProductScreen';
 
@@ -31,6 +32,7 @@ function App() {
           <Route exact path="/" component={ProductListScreen} />
           <Route path="/product/:id" component={ProductScreen} />
           <Route path="/cart/:id?" component={CartScreen} />
+          <Route path="/signin" component={LoginScreen} />
           <Route component={Error} />
         </Switch>
       </main>
