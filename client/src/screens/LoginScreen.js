@@ -4,13 +4,15 @@ import { Link } from 'react-router-dom';
 import { login } from '../actions/userActions';
 import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
+import queryString from 'query-string';
 
 function LoginScreen(props) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
-  const { message, loading, variant, userInfo } = useSelector(state => state.userLogin);
-  const returnURL = props.location.search.split('=')[1] || '';
+  const { error, loading, userInfo } = useSelector(state => state.userLogin);
+  // const returnURL = props.location.search.split('=')[1] || '';
+  const { returnURL, message } = queryString.parse(props.location.search);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -19,9 +21,8 @@ function LoginScreen(props) {
 
   useEffect(() => {
     if (userInfo) {
-      setTimeout(() => {
-        props.history.push(`/${returnURL}`);
-      }, 1000);
+      const redirect = returnURL || '';
+      props.history.push(`/${redirect}`);
     }
   }, [props.history, returnURL, userInfo]);
 
@@ -34,11 +35,16 @@ function LoginScreen(props) {
         <div><LoadingBox></LoadingBox></div> : ''
       }
       {
-        message ?
-          <div><MessageBox variant={variant}>
-            {message}
+        error && !loading ?
+          <div><MessageBox variant="danger">
+            {error}
           </MessageBox>
           </div> : ''
+      }
+      {
+        message && !error
+          ? <div><MessageBox>{message}</MessageBox></div>
+          : ''
       }
       <div>
         <label htmlFor="email">Email</label>

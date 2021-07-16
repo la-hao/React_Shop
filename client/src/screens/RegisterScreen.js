@@ -23,7 +23,7 @@ function RegisterScreen(props) {
     if (userInfo) {
       setTimeout(() => {
         dispatch(resetRegister());
-        props.history.push(`/signin?returnURL=${returnURL}`);
+        props.history.push(`/signin?returnURL=${returnURL}&&message=Please sign in your account`);
       }, 1000);
     }
   }, [props.history, returnURL, userInfo, dispatch]);
