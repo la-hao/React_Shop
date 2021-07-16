@@ -23,7 +23,7 @@ function CartScreen(props) {
     }
 
     const onCheckOut = () => {
-        props.history.push('/login?returnURL=checkout');
+        props.history.push('/signin?returnURL=shipping');
     }
 
     return (
