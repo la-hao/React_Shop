@@ -1,26 +1,66 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { createOrder } from "../actions/orderActions";
 import CheckoutSteps from "../components/CheckoutSteps";
+import LoadingBox from "../components/LoadingBox";
 import MessageBox from "../components/MessageBox";
+import { CART_EMPTY } from "../constants/cartConstants";
+import { ORDER_CREATE_RESET } from "../constants/orderConstants";
 
 function PlaceOrderScreen(props) {
   const userLogin = useSelector((state) => state.userLogin);
   const cart = useSelector((state) => state.cart);
-  const { shippingAddress } = cart;
-  const { cartItems } = cart;
 
-  if (!cart.paymentMethod) {
+  if (!userLogin.userInfo) {
+    props.history.push(`/signin?message=Please sign in to see this page`);
+  } else if (!cart.paymentMethod) {
     props.history.push(`/payment?message=Please choose your payment method!`);
   }
 
-  if (!userLogin) {
-    props.history.push(`/signin?message=Please sign in to see this page`);
-  }
+  // const { shippingAddress } = cart;
+  // const { cartItems } = cart;
+
+  const { loading, error, success, order } = useSelector(
+    (state) => state.orderCreate
+  );
+
+  const toPrice = (num) => {
+    return Number(num.toFixed(2));
+  };
+
+  const itemsCost = toPrice(
+    cart.cartItems.reduce((a, c) => a + c.qty * c.price, 0)
+  );
+  const shippingCost = itemsCost >= 100 ? toPrice(0) : toPrice(10);
+  const taxCost = toPrice(0.15 * itemsCost);
+  const totalCost = toPrice(itemsCost + shippingCost + taxCost);
+
+  const dispatch = useDispatch();
 
   const submitHandler = () => {
-    window.confirm("Confirm to check out?");
+    const checked = window.confirm("Confirm to check out?");
+    if (checked) {
+      const newOrder = {
+        orderItems: cart.cartItems,
+        shippingAddress: cart.shippingAddress,
+        paymentMethod: cart.paymentMethod,
+        itemsCost,
+        shippingCost,
+        taxCost,
+        totalCost,
+      };
+      dispatch(createOrder(newOrder));
+    }
   };
+
+  useEffect(() => {
+    if (success) {
+      props.history.push(`/order/${order._id}`);
+      dispatch({ type: ORDER_CREATE_RESET });
+      dispatch({ type: CART_EMPTY });
+    }
+  }, [dispatch, order, props.history, success, userLogin.userInfo]);
 
   return (
     <div>
@@ -33,9 +73,13 @@ function PlaceOrderScreen(props) {
                 <h2>Shipping</h2>
               </li>
               <li>
+                <strong>Full Name: </strong> {cart.shippingAddress?.fullName}
+              </li>
+              <li>
                 <strong>Address: </strong>
-                {shippingAddress.address}, {shippingAddress.city},{" "}
-                {shippingAddress.postalCode}, {shippingAddress.country}
+                {cart.shippingAddress?.address}, {cart.shippingAddress?.city},{" "}
+                {cart.shippingAddress?.postalCode},{" "}
+                {cart.shippingAddress?.country}
               </li>
             </ul>
           </div>
@@ -57,8 +101,8 @@ function PlaceOrderScreen(props) {
               <li>
                 <h2>Order Items</h2>
               </li>
-              {cartItems.length > 0 ? (
-                cartItems.map((item) => (
+              {cart.cartItems.length > 0 ? (
+                cart.cartItems.map((item) => (
                   <li key={item.product}>
                     <div className="row">
                       <div>
@@ -96,21 +140,19 @@ function PlaceOrderScreen(props) {
               <li>
                 <div className="row">
                   <div>Items</div>
-                  <div>
-                    ${cartItems.reduce((a, c) => a + c.qty * c.price, 0)}
-                  </div>
+                  <div>${itemsCost}</div>
                 </div>
               </li>
               <li>
                 <div className="row">
                   <div>Shipping Cost</div>
-                  <div>${0}</div>
+                  <div>${shippingCost}</div>
                 </div>
               </li>
               <li>
                 <div className="row">
                   <div>Tax</div>
-                  <div>${19.5}</div>
+                  <div>${taxCost}</div>
                 </div>
               </li>
               <li>
@@ -119,15 +161,17 @@ function PlaceOrderScreen(props) {
                     <strong>Order Total</strong>
                   </div>
                   <div>
-                    ${cartItems.reduce((a, c) => a + c.qty * c.price, 0)}
+                    <strong>${totalCost}</strong>
                   </div>
                 </div>
               </li>
               <li>
+                {loading && <LoadingBox></LoadingBox>}
+                {error && <MessageBox variant="danger">{error}</MessageBox>}
                 <button
                   type="button"
                   className="primary block"
-                  disabled={cartItems.length <= 0 ? true : false}
+                  disabled={cart.cartItems.length <= 0 ? true : false}
                   onClick={submitHandler}
                 >
                   Place Order
