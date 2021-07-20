@@ -25,6 +25,17 @@ function PlaceOrderScreen(props) {
     (state) => state.orderCreate
   );
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (success) {
+      console.log("order", order);
+      props.history.push(`/order/${order._id}`);
+      dispatch({ type: ORDER_CREATE_RESET });
+      dispatch({ type: CART_EMPTY });
+    }
+  }, [dispatch, order, props.history, success]);
+
   const toPrice = (num) => {
     return Number(num.toFixed(2));
   };
@@ -35,8 +46,6 @@ function PlaceOrderScreen(props) {
   const shippingCost = itemsCost >= 100 ? toPrice(0) : toPrice(10);
   const taxCost = toPrice(0.15 * itemsCost);
   const totalCost = toPrice(itemsCost + shippingCost + taxCost);
-
-  const dispatch = useDispatch();
 
   const submitHandler = () => {
     const checked = window.confirm("Confirm to check out?");
@@ -53,14 +62,6 @@ function PlaceOrderScreen(props) {
       dispatch(createOrder(newOrder));
     }
   };
-
-  useEffect(() => {
-    if (success) {
-      props.history.push(`/order/${order._id}`);
-      dispatch({ type: ORDER_CREATE_RESET });
-      dispatch({ type: CART_EMPTY });
-    }
-  }, [dispatch, order, props.history, success, userLogin.userInfo]);
 
   return (
     <div>

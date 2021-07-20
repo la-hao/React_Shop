@@ -4,6 +4,15 @@ import Order from "../models/order.model.js";
 import { isAuth } from "../utils.js";
 const orderRouter = express.Router();
 
+//Config
+orderRouter.get(
+  "/reset",
+  expressAsyncHandler(async (req, res) => {
+    await Order.remove({});
+    res.send({ message: "Order deleted" });
+  })
+);
+
 orderRouter.post(
   "/",
   isAuth,
@@ -24,6 +33,15 @@ orderRouter.post(
       const createdOrder = await order.save();
       res.status(201).send(createdOrder);
     }
+  })
+);
+
+orderRouter.get(
+  "/mine",
+  isAuth,
+  expressAsyncHandler(async (req, res) => {
+    const orderList = await Order.find({ user: req.user._id });
+    res.send(orderList);
   })
 );
 

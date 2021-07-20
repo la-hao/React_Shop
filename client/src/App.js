@@ -5,6 +5,7 @@ import "./App.css";
 import Error from "./components/Error";
 import CartScreen from "./screens/CartScreen";
 import LoginScreen from "./screens/LoginScreen";
+import OrderHistoryScreen from "./screens/OrderHistoryScreen";
 import OrderScreen from "./screens/OrderScreen";
 import PaymentScreen from "./screens/PaymentScreen";
 import PlaceOrderScreen from "./screens/PlaceOrderScreen";
@@ -51,6 +52,9 @@ function App() {
                   <Link to="/profile">Your Profile</Link>
                 </li>
                 <li>
+                  <Link to="/orderhistory">Order History</Link>
+                </li>
+                <li>
                   <Link to="#signout" onClick={signOutHandler}>
                     Sign Out
                   </Link>
@@ -73,6 +77,7 @@ function App() {
           <Route path="/payment" component={PaymentScreen} />
           <Route path="/placeorder" component={PlaceOrderScreen} />
           <Route path="/order/:id" component={OrderScreen} />
+          <Route path="/orderhistory" component={OrderHistoryScreen} />
           <Route component={Error} />
         </Switch>
       </main>
