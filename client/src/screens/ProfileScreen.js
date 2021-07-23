@@ -29,8 +29,11 @@ function ProfileScreen(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch({ type: USER_UPDATE_PROFILE_RESET });
+  }, [dispatch]);
+
+  useEffect(() => {
     if (!userDetails) {
-      dispatch({ type: USER_UPDATE_PROFILE_RESET });
       dispatch(detailsUser());
     } else {
       setName(userDetails.name);

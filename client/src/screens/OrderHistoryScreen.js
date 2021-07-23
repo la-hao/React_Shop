@@ -23,7 +23,10 @@ function OrderHistoryScreen(props) {
         const { data } = await axios.get("/api/orders/mine", {
           headers: { authorization: `BEARER ${userLogin.userInfo.token}` },
         });
-        setList(data);
+        const sortData = data.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+        setList(sortData);
         setLoading(false);
       } catch (err) {
         setError(

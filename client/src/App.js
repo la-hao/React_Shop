@@ -3,6 +3,7 @@ import { Link, Route, Switch } from "react-router-dom";
 import { logout } from "./actions/userActions";
 import "./App.css";
 import Error from "./components/Error";
+import SearchBox from "./components/SearchBox";
 import CartScreen from "./screens/CartScreen";
 import LoginScreen from "./screens/LoginScreen";
 import OrderHistoryScreen from "./screens/OrderHistoryScreen";
@@ -13,6 +14,7 @@ import ProductListScreen from "./screens/ProductListScreen";
 import ProductScreen from "./screens/ProductScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import RegisterScreen from "./screens/RegisterScreen";
+import SearchScreen from "./screens/SearchScreen";
 import ShippingScreen from "./screens/ShippingScreen";
 
 function App() {
@@ -32,6 +34,11 @@ function App() {
           <Link className="brand" to="/">
             amazona
           </Link>
+        </div>
+        <div>
+          <Route
+            render={({ history }) => <SearchBox history={history} />}
+          ></Route>
         </div>
         <div>
           <Link to="/cart">
@@ -80,6 +87,7 @@ function App() {
           <Route path="/order/:id" component={OrderScreen} />
           <Route path="/orderhistory" component={OrderHistoryScreen} />
           <Route path="/profile" component={ProfileScreen} />
+          <Route path="/search" component={SearchScreen} />
           <Route component={Error} />
         </Switch>
       </main>
